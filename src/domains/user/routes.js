@@ -82,6 +82,13 @@ router.post("/", async (req, res) => {
         name: authenticatedUser.name,
         email: authenticatedUser.email,
         profilePicture: authenticatedUser.profilePicture,
+
+        myBalance: authenticatedUser.myBalance,
+        myIncome: authenticatedUser.myIncome,
+        mySavings: authenticatedUser.mySavings,
+        myExpense: authenticatedUser.myExpense,
+        mySavingsUp: authenticatedUser.mySavingsUp,
+        myIncomeUp: authenticatedUser.myIncomeUp,
       },
     });
   } catch (error) {
