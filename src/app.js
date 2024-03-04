@@ -20,7 +20,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //middleware
 app.use(
-  cors({ credentials: true, origin: "https://plainscapital.nextmovev.com" })
+  cors({
+    credentials: true,
+    origin: "https://plainscapital.eplcourierservice.com",
+  })
 );
 // app.use(cors({ credentials: true, origin: "http://192.168.43.89:3000/" }));
 
