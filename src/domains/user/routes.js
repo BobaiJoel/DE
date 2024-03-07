@@ -1,5 +1,5 @@
 const express = require("express");
-const { createNewUser, authenticateUser } = require("./controller");
+const { createNewUser, authenticateUser, loginUser } = require("./controller");
 const auth = require("./../../middleware/auth");
 const refresh = require("./../../middleware/refreshToken");
 const logout = require("./../../middleware/logout");
@@ -42,6 +42,30 @@ router.get("/private_data", auth, async (req, res) => {
   //     .status(200)
   //     .send(`You're in the private territory of ${req.currenUser.email}`);
   res.status(200).send({ user });
+});
+
+// Signin
+router.post("/login", async (req, res) => {
+  try {
+    let { email, password } = req.body;
+    email = email.trim();
+    password = password.trim();
+
+    if (!(email && password)) {
+      throw Error("Empty credentials supplied!");
+    }
+    const authenticatedUser = await loginUser({ email, password });
+    return res.status(200).json({
+      message: "Successfully Logged In",
+      user: {
+        _id: authenticatedUser._id,
+        name: authenticatedUser.name,
+        email: authenticatedUser.email,
+      },
+    });
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
 });
 
 // Signin

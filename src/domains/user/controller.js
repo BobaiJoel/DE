@@ -3,6 +3,33 @@ const { hashData, verifyHashedData } = require("./../../util/hashData");
 // const { uploadfile } = require("./../../util/filehelper");
 const createToken = require("./../../util/createToken");
 
+const loginUser = async (data) => {
+  try {
+    const { email, password } = data;
+    const fetchedUser = await User.findOne({ email });
+
+    if (!fetchedUser) {
+      throw Error("We don't have an account with this email!");
+    }
+
+    if (!fetchedUser.verified) {
+      throw Error("Email hasn't been verified yet. Check your inbox.");
+    }
+
+    const hashedPassword = fetchedUser.password;
+
+    const passwordMatch = await verifyHashedData(password, hashedPassword);
+
+    if (!passwordMatch) {
+      throw Error("Wrong password!");
+    }
+
+    return fetchedUser;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const authenticateUser = async (data) => {
   try {
     const { email, password } = data;
@@ -75,4 +102,4 @@ const createNewUser = async (data) => {
   }
 };
 
-module.exports = { createNewUser, authenticateUser };
+module.exports = { createNewUser, authenticateUser, loginUser };
