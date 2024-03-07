@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
     credentials: true,
-    origin: "https://plainscapital.eplcourierservice.com",
+    origin: "https://plainscapital.nextmovev.com",
   })
 );
 // app.use(cors({ credentials: true, origin: "http://192.168.43.89:3000/" }));
