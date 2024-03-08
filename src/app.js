@@ -25,7 +25,8 @@ app.use(
     origin: "https://plainscapital.nextmovev.com",
   })
 );
-// app.use(cors({ credentials: true, origin: "http://192.168.43.89:3000/" }));
+
+// app.use(cors({ credentials: true, origin: "http://192.168.43.89:3000" }));
 
 app.use("/api/v1", routes);
 

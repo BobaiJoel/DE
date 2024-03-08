@@ -1,11 +1,13 @@
 const express = require("express");
 const { createNewUser, authenticateUser, loginUser } = require("./controller");
 const auth = require("./../../middleware/auth");
+const { verifyOTP } = require("../otp/controller");
 const refresh = require("./../../middleware/refreshToken");
 const logout = require("./../../middleware/logout");
 const User = require("./model");
 const {
   sendVerificationOTPEmail,
+  sendVerificationOTPId,
 } = require("./../email_verification/controller");
 const router = express.Router();
 
@@ -55,6 +57,7 @@ router.post("/login", async (req, res) => {
       throw Error("Empty credentials supplied!");
     }
     const authenticatedUser = await loginUser({ email, password });
+    await sendVerificationOTPId(email);
     return res.status(200).json({
       message: "Successfully Logged In",
       user: {
@@ -71,13 +74,15 @@ router.post("/login", async (req, res) => {
 // Signin
 router.post("/", async (req, res) => {
   try {
-    let { email, password } = req.body;
+    let { email, password, otp } = req.body;
     email = email.trim();
     password = password.trim();
 
     if (!(email && password)) {
       throw Error("Empty credentials supplied!");
     }
+    const validOTP = await verifyOTP({ email, otp });
+    if (!validOTP) throw Error("Wrong otp");
     const authenticatedUser = await authenticateUser({ email, password });
     // Check if the 'user ID' cookie exists
     if (req.cookies[`${authenticatedUser._id}`]) {

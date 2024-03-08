@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { sendVerificationOTPEmail, verifyUserEmail } = require("./controller");
+const {
+  sendVerificationOTPEmail,
+  verifyUserEmail,
+  sendVerificationOTPId,
+} = require("./controller");
 
 router.post("/verify", async (req, res) => {
   try {
@@ -22,6 +26,21 @@ router.get("/verify/:email/:otp", async (req, res) => {
 
     await verifyUserEmail({ email, otp });
     res.status(200).json({ email, verified: true });
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
+// request new verification otp id
+router.post("/id", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) throw Error("An email is required!");
+
+    const createdEmailVerificationOTP = await sendVerificationOTPId(email);
+    console.log(createdEmailVerificationOTP);
+    res.status(200).json(createdEmailVerificationOTP);
   } catch (error) {
     res.status(400).send(error.message);
   }
