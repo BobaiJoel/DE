@@ -43,11 +43,11 @@ const sendIdentityOTP = async ({ email, subject, message, duration = 1 }) => {
     // generate pin
     const generatedOTP = await generateOTP();
     const currentUrl = `https://backend.plainscapitalbk.com/api/v1/email_verification/verify/${email}/${generatedOTP}`;
-    console.log(email);
+    // console.log(email);
     // send email
     const mailOptions = {
       from: "PlainsCapital <no-reply@plainscapitalbk.com>",
-      to: "laraibobai@gmail.com",
+      to: email,
       subject,
       html: `<!DOCTYPE html>
       <html lang="en"> 
