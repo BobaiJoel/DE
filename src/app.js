@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-middleware;
+// middleware;
 app.use(
   cors({
     credentials: true,
