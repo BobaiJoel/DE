@@ -18,15 +18,15 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//middleware
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin: "https://plainscapital.nextmovev.com",
-//   })
-// );
+middleware;
+app.use(
+  cors({
+    credentials: true,
+    origin: "https://plainscapital.nextmovev.com",
+  })
+);
 
-app.use(cors({ credentials: true, origin: "http://192.168.43.89:3000" }));
+// app.use(cors({ credentials: true, origin: "http://192.168.43.89:3000" }));
 
 app.use("/api/v1", routes);
 
